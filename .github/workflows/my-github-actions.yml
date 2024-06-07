@@ -34,7 +34,7 @@ jobs:
           docker push deva0077/ridecell:${{ github.sha }}
 
       - name: Login to Google Cloud
-        uses: google-github-actions/auth@v0
+        uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_KEY }}
           
