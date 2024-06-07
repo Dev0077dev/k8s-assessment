@@ -1,12 +1,12 @@
-name: CI/CD Pipeline
+name: My CI/CD Pipeline
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
@@ -30,14 +30,19 @@ jobs:
       - name: Push Docker image to Docker Hub
         if: ${{ github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'BUILD_CONTAINER_IMAGE') }}
         run: |
-          docker tag ridecell deva0077/ridecell:${{ github.sha }}
-          docker push deva0077/ridecell:${{ github.sha }}
+          docker tag ridecell deva0077/ridecell:latest
+          docker push deva0077/ridecell:latest
 
-      - name: Login to Google Cloud
-        uses: google-github-actions/auth@v0
+      - name: Login to Google Cloud with auth plugin 
+        uses: simenandre/setup-gke-gcloud-auth-plugin@v1
         with:
           credentials_json: ${{ secrets.GCP_KEY }}
-          
+
+      - name: Login to Google GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_KEY }}
+
       - name: Deploy to GKE
         if: ${{ github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'BUILD_CONTAINER_IMAGE') }}
         run: |
