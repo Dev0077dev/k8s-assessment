@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ride-cell-container
-          image: your-dockerhub-username/your-image-name:latest # Change this to your Docker Hub image
+          image: deva0077/ridecell:${{ github.sha }}
           ports:
             - containerPort: 3000
 
