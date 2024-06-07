@@ -34,17 +34,9 @@ jobs:
           docker push deva0077/ridecell:${{ github.sha }}
 
       - name: Login to Google Cloud
-        uses: google-github-actions/auth@v2
+        uses: simenandre/setup-gke-gcloud-auth-plugin@v1
         with:
           credentials_json: ${{ secrets.GCP_KEY }}
-      # Install gke-gcloud-auth-plugin (assuming Linux/macOS)
-      - name: Install gke-gcloud-auth-plugin
-        run: |
-          curl -LJO https://raw.githubusercontent.com/kubernetes/cloud-provider-gcp/master/scripts/auth/install.sh
-          chmod +x install.sh
-          ./install.sh --components=gke-gcloud-auth-plugin
-          
-                    
       - name: Deploy to GKE
         if: ${{ github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'BUILD_CONTAINER_IMAGE') }}
         run: |
