@@ -33,10 +33,16 @@ jobs:
           docker tag ridecell deva0077/ridecell:${{ github.sha }}
           docker push deva0077/ridecell:${{ github.sha }}
 
-      - name: Login to Google Cloud
+      - name: Login to Google Cloud with auth plugin 
         uses: simenandre/setup-gke-gcloud-auth-plugin@v1
         with:
           credentials_json: ${{ secrets.GCP_KEY }}
+
+      - name: Login to Google GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_KEY }}
+
       - name: Deploy to GKE
         if: ${{ github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'BUILD_CONTAINER_IMAGE') }}
         run: |
