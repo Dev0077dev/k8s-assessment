@@ -30,8 +30,8 @@ jobs:
       - name: Push Docker image to Docker Hub
         if: ${{ github.event_name == 'pull_request' || contains(github.event.head_commit.message, 'BUILD_CONTAINER_IMAGE') }}
         run: |
-          docker tag ridecell deva0077/ridecell:${{ github.sha }}
-          docker push deva0077/ridecell:${{ github.sha }}
+          docker tag ridecell deva0077/ridecell:latest
+          docker push deva0077/ridecell:latest
 
       - name: Login to Google Cloud with auth plugin 
         uses: simenandre/setup-gke-gcloud-auth-plugin@v1

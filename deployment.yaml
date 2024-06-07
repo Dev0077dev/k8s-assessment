@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ridecell
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: ridecell
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ride-cell-container
-          image: deva0077/ridecell:${{ github.sha }}
+          image: deva0077/ridecell:latest
           ports:
             - containerPort: 3000
 
